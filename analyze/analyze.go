@@ -911,10 +911,17 @@ func (f *file) checkSelectorExprInCallExpr(si *storedInfo, t *ast.SelectorExpr, 
 					si.problems = append(si.problems, createProblem(si, targetVarName, targetFuncName, category, t.Sel.NamePos, origPos))
 					ret = true
 				}
+				fmt.Printf(""+
+					"SelectorName: %s, x.Name: %s, si.Import: %s, path: %s, targetVarName: %s, \n\t"+
+					"targetFuncName:%s, t.Sel.NamePos: %d, origPos: %d\n",
+					t.Sel.Name, si.importMap[libFullPath], libFullPath, x.Name, targetVarName, targetFuncName,
+					t.Sel.NamePos, origPos)
 			}
 		}
+
 		// e.g., t := time.Now(); a := t.Format()
-		ret = ret || f.checkAssignOps(si, targetFuncName, x.Name, category, origPos)
+		ret = ret // || f.checkAssignOps(si, targetFuncName, x.Name, category, origPos)
+		//ret = false
 	case *ast.CallExpr:
 		ret = f.checkNonDetermin(si, targetFuncName, targetVarName, category, "SelectorExpr", x, origPos)
 	default:
