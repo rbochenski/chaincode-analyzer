@@ -3,13 +3,12 @@ package main
 import (
 	"flag"
 	"fmt"
+	analyzer "github.com/hyperledger-labs/chaincode-analyzer/analyze/analyze"
 	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
 	"strings"
-
-	analyzer "github.com/hyperledger-labs/chaincode-analyzer/analyze"
 )
 
 func usage() {

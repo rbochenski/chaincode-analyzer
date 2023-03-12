@@ -2,6 +2,7 @@ package analyzer
 
 import (
 	"fmt"
+	"github.com/hyperledger-labs/chaincode-analyzer/analyze/util"
 	"go/ast"
 	"go/build"
 	"go/importer"
@@ -12,11 +13,8 @@ import (
 	"reflect"
 	"sort"
 	"strings"
-
-	"github.com/hyperledger-labs/chaincode-analyzer/util"
 )
 
-//
 var logger *log.Logger
 
 // An Analyzer analyzes Go source code
@@ -251,7 +249,6 @@ func (si *storedInfo) init(funcName string) {
 	si.targetVar[funcName]["Switch"] = make(map[token.Pos]ast.Expr)
 }
 
-//
 func createProblem(si *storedInfo, varName, targetFuncName, category string, pos token.Pos, origPos token.Pos) Problem {
 	if _, ok := si.isValidProblem[targetFuncName][varName]; !ok {
 		si.isValidProblem[targetFuncName][varName] = make(map[string]bool)
@@ -848,7 +845,6 @@ func checkMapIter(si *storedInfo, n *ast.RangeStmt) {
 
 }
 
-//
 func checkAPI(si *storedInfo, t *ast.SelectorExpr, targetFuncName, targetVarName, name string, origPos token.Pos) (ret bool) {
 	if exprs, ok := si.opMap[targetFuncName][name]; ok {
 		if len(exprs) == 1 {
@@ -865,7 +861,6 @@ func checkAPI(si *storedInfo, t *ast.SelectorExpr, targetFuncName, targetVarName
 	return ret
 }
 
-//
 func (f *file) checkAssignOps(si *storedInfo, targetFuncName, name, category string, origPos token.Pos) (ret bool) {
 	if ops, ok := si.opMap[targetFuncName][name]; ok {
 		for _, op := range ops {
